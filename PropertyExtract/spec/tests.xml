@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+     Copyright 2014, General Dynamics C4 Systems
+
+     SPDX-License-Identifier: GPL-2.0-only
+-->
+
+<!--
+
+     Regression Specification File
+
+     See "misc/regression/tests.xml" for a description of the file
+     format.
+
+-->
+<testsuite cpu-timeout="3600">
+
+    <set>
+        <!-- Extract kernel configuration into Kernel_Config.thy. -->
+        <test name="kernel-config" cpu-timeout="300">make c-config</test>
+        <!-- Run the haskell translator. -->
+        <test name="haskell-translator" cpu-timeout="600">make design-spec</test>
+    </set>
+
+    <set depends="isabelle Lib">
+        <!-- Various seL4 specifications. -->
+        <test name="TakeGrant">make TakeGrant</test>
+
+        <set depends="haskell-translator kernel-config">
+            <test name="ASpec">make ASpec</test>
+            <test name="ExecSpec">make ExecSpec</test>
+            <test name="DSpec">make DSpec</test>
+        </set>
+
+        <set depends="ASpec">
+            <test name="ASepSpec">make ASepSpec</test>
+        </set>
+    </set>
+
+    <set>
+        <!-- Build Haskell kernel code. -->
+        <test name="HaskellKernel" cwd="haskell" cpu-timeout="3600">make $L4V_ARCH</test>
+    </set>
+
+</testsuite>

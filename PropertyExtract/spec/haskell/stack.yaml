@@ -1,0 +1,17 @@
+#
+# Copyright 2020, Data61, CSIRO (ABN 41 687 119 230)
+#
+# SPDX-License-Identifier: GPL-2.0-only
+#
+
+# We use `stack` only to install GHC and cabal-install, not to build the project.
+# The rest of the build works via cabal
+
+# Stackage LTS Haskell 20.25 (ghc-9.2.8)
+resolver: lts-20.25
+
+packages: []
+extra-deps: []
+
+flags: {}
+extra-package-dbs: []

@@ -1,0 +1,11 @@
+/vectordb
+/KGConstruct/output*/*
+/tmp/
+.history/
+*.pdf
+*.md
+/KGConstruct/result/
+/KGConstruct/abstract/
+/KGConstruct/markdowns/*
+*.txt
+*/backup*/

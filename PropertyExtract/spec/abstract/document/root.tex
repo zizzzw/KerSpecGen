@@ -1,0 +1,193 @@
+%
+% Copyright 2014, General Dynamics C4 Systems
+%
+% SPDX-License-Identifier: GPL-2.0-only
+%
+
+% LaTeX master document for abstract spec.
+
+\documentclass[10pt,a4paper]{scrbook}
+
+% These old font commands have been removed from newer versions of
+% the scrbook document class, but isabelle.sty still uses them.
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+
+\usepackage{isabelle,isabellesym}
+
+% further packages required for unusual symbols (see also isabellesym.sty)
+% use only when needed
+\usepackage{amssymb}                   % for \<leadsto>, \<box>, \<diamond>,
+                                       % \<sqsupset>, \<mho>, \<Join>,
+                                       % \<lhd>, \<lesssim>, \<greatersim>,
+                                       % \<lessapprox>, \<greaterapprox>,
+                                       % \<triangleq>, \<yen>, \<lozenge>
+\usepackage[english]{babel}            % greek for \<euro>,
+                                       % english for \<guillemotleft>,
+                                       %             \<guillemotright>
+                                       % default language = last
+%\usepackage[latin1]{inputenc}         % for \<onesuperior>, \<onequarter>,
+                                       % \<twosuperior>, \<onehalf>,
+                                       % \<threesuperior>, \<threequarters>,
+                                       % \<degree>
+%\usepackage[only,bigsqcap]{stmaryrd}  % for \<Sqinter>
+%\usepackage{eufrak}                   % for \<AA> ... \<ZZ>, \<aa> ... \<zz>
+                                       % (only needed if amssymb not used)
+
+\usepackage{graphicx}
+\usepackage[draft]{fixme}
+\usepackage{cite}
+\usepackage{xspace}
+
+\usepackage{color}
+\definecolor{linkcolor}{rgb}{0,0,0.7}
+% this should be the last package used
+\usepackage[colorlinks=true,linkcolor=linkcolor,citecolor=linkcolor,
+            filecolor=linkcolor,pagecolor=linkcolor,urlcolor=linkcolor]{hyperref}
+
+\urlstyle{rm}
+\isabellestyle{tt}
+
+\newcommand{\version}{\input{VERSION}\xspace}
+\newcommand{\arch}{\input{ARCH}\xspace}
+
+\hypersetup
+{
+    pdfauthor={Trustworthy Systems, Data61},
+    pdftitle={Abstract Formal Specification of the seL4/\arch API}
+}
+
+\renewcommand{\isamarkupchapter}[1]{\chapter{#1}}
+
+% don't show ML code
+\isadroptag{ML}
+
+% don't show proofs
+\isadroptag{proof}
+
+% do not show confusing double quotes in definitions and lemmas
+%\renewcommand{\isachardoublequote}{}
+%\renewcommand{\isachardoublequoteopen}{}
+%\renewcommand{\isachardoublequoteclose}{}
+
+\parindent 0pt\parskip 0.5ex
+
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\topmargin}{-1cm}
+\setlength{\textwidth}{15.5cm}
+\setlength{\textheight}{22.5cm}
+
+\newcommand{\meth}[1]{\texttt{#1()}}
+\newcommand{\obj}[1]{\textsf{\small #1}}
+
+\begin{document}
+
+% tex hacking to get git revision from repo document
+
+% we can't include gitrev.tex in document_files, because this will rebuild
+% ASpec (and therefore pretty much everything) every time the git revision
+% changes (for any change anywhere). This means gitrev.tex will not be
+% copied into the document build directory, and we have to find the repo
+% checkout. We give the root of the repo checkout as document file, because
+% if that changes, everything changes anyway. From there we can find the rest,
+% which we do below:
+
+\newcommand\gitroot{}
+\newcommand\gitrev{}
+
+\makeatletter\let\myfilehandle\@inputcheck\makeatother
+\openin\myfilehandle=git-root.tex\relax
+\begingroup\endlinechar-1
+  \global\read\myfilehandle to \gitroot
+\endgroup
+\closein\myfilehandle
+
+\makeatletter\let\myfilehandle\@inputcheck\makeatother
+\openin\myfilehandle=\gitroot/spec/abstract/document/gitrev.tex\relax
+\begingroup\endlinechar-1
+  \global\read\myfilehandle to \gitrev
+\endgroup
+\closein\myfilehandle
+
+% end tex hacking
+
+
+\title{Abstract Formal Specification of the seL4/\arch API}
+
+\date{Version \version}
+
+\author{%
+June Andronick \and
+Joel Beeren \and
+Matthew Brecknell \and
+Timothy Bourke \and
+Philip Derrin \and
+Kevin Elphinstone \and
+Xin Gao \and
+David Greenaway \and
+Alejandro Gomez-Londono \and
+Gerwin Klein \and
+Rafal Kolanski \and
+Ramana Kumar \and
+Daniel Matichuk \and
+Thomas Sewell \and
+Michael Sproul \and
+Miki Tanaka \and
+Sophie Taylor \and
+Simon Winwood
+}
+
+\maketitle
+
+\thispagestyle{empty}
+
+\vfill
+
+\copyright~2014 National ICT Australia Limited.\\
+\copyright~2014 Open Kernel Labs, Inc.\\
+\copyright~2018 Data61, CSIRO.\\
+
+\textsc{All rights reserved}.
+
+\bigskip
+
+Architecture: \arch\\
+Document build date: \today\\
+Produced from git change set: \gitrev
+
+\clearpage
+
+\chapter*{Abstract}
+This document is the text version of the abstract, formal
+Isabelle/HOL specification of the seL4 microkernel. It is
+intended to give a precise, operational definition of the
+seL4 microkernel on the \arch architecture.
+The document contains a short overview, followed by
+text generated from the formal Isabelle/HOL definitions.
+
+This document is not a tutorial or user manual and is not intended to be read
+as such. Please see the bundled user manual for a higher-level introduction to
+the kernel.
+
+
+\cleardoublepage
+
+\tableofcontents
+
+\input{session}
+
+\bibliographystyle{plain}
+\bibliography{defs,root}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
