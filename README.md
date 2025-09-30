@@ -1,30 +1,30 @@
 # KerSpecGen
 
-KerSpecGen是一个内核规约的自动形式化项目，包含三个主要步骤：
+KerSpecGen is an automatic formalization project for kernel specifications, consisting of three main steps:
 
 ## 1. PropertyExtract
 
-在PropertyExtract中，对seL4的规约文件（.thy）进行拆分，并使用Qwen/llama3.1-405B大模型接口来抽取每一条规约代码对应的内核规约性质，形成“code-property”对数据集。
+In PropertyExtract, the seL4 specification file (.thy) is split, and the Qwen/llama3.1-405B large model interface is used to extract the kernel specification properties corresponding to each specification code, forming a "code-Property" pair dataset.
 
 
 ## 2. KGConstruct
 
-在KGConstruct中，收集seL4的相关文档，并利用RAG技术和大模型对内核的主要功能进行递归拆分，直到拆分到性质层面，最终形成seL4的知识图谱并存储到neo4j中。
+In KGConstruct, relevant documentation of seL4 is collected, and RAG technology and large models are used to recursively split the main functions of the kernel until it is split to the property level. Eventually, a knowledge graph of seL4 is formed and stored in neo4j.
 
 
 ## 3. SpecGen
 
-在SpecGen中，对“规约-性质”对进行划分，将一部分用于微调代码生成模型（使用Llama-Factory作为微调工具），另一部分作为测试集。通过GraphRAG技术，利用之前构建的知识图谱，帮助微调模型生成完整的规约文件。
+In SpecGen, the "specification - property" pairs are divided. One part is used for fine-tuning the code generation model (using Llama-Factory as the fine-tuning tool), and the other part is used as the test set. Through GraphRAG technology, the previously constructed knowledge graph is utilized to help fine-tune the model and generate a complete specification file.
 
 
-# 部署
-## 安装并运行Ollama
+# Deployment 
+## Install and run Ollama
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ollama pull qwen:72b
 ollama serve
 ```
-## 安装并运行neo4j
+## Install and run neo4j
 ```bash
 cd ~
 wget https://dist.neo4j.org/neo4j-community-5.20.0-unix.tar.gz
@@ -32,7 +32,7 @@ tar -xvzf neo4j-community-5.20.0-unix.tar.gz
 cd neo4j-community-5.20.0/bin
 ./neo4j start
 ```
-## 安装依赖
+## Installation dependencies
 ```bash
 conda create -n OSAF python=3.9
 conda activate OSAF
