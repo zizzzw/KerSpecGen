@@ -12,10 +12,6 @@ In PropertyExtract, the seL4 specification file (.thy) is split, and the Qwen/ll
 In KGConstruct, relevant documentation of seL4 is collected, and RAG technology and large models are used to recursively split the main functions of the kernel until it is split to the property level. Eventually, a knowledge graph of seL4 is formed and stored in neo4j.
 
 
-## 3. SpecGen
-
-In SpecGen, the "specification - property" pairs are divided. One part is used for fine-tuning the code generation model (using Llama-Factory as the fine-tuning tool), and the other part is used as the test set. Through GraphRAG technology, the previously constructed knowledge graph is utilized to help fine-tune the model and generate a complete specification file.
-
 
 # Deployment 
 ## Install and run Ollama
